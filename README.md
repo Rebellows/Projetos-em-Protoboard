@@ -1,1 +1,1 @@
-Meus projetos em Tinkercad nessa jornada da vida.
+Meus projetos de circuitos nessa jornada da vida.
