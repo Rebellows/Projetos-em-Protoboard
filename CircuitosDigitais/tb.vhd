@@ -19,7 +19,19 @@ signal controlF, controlS : std_logic_vector (1 downto 0);
 signal QE, P1, P2, P3, AUX, A1, A2, A3 : std_logic_vector (3 downto 0);
 signal tranca_s : std_logic;
 
-type test_record is record
-    configurar, valido : std_logic;
-    entrada : std_logic_vector(3 downto 0);
-end record;
+begin
+
+clock <= not clock after 12.5 ns;
+
+DUT: entity work.tranca_digital
+port map(
+            configurar => configurar, 
+            valido => valido, 
+            reset => reset, 
+            clock => clock, 
+            tranca => tranca, 
+            configurado => configurado, 
+            alarme => alarme, 
+            entrada => entrada
+        );
+
