@@ -32,7 +32,7 @@ begin
 
     configurado <= '0' when EA = DESCONFIGURADO OR EA = RE OR EA = RE0 OR EA = RE01 OR EA = RE010 OR EA = VALIDADO else '1';
     tranca <= '0' when (EA = FIM AND P1 = A1 AND P2 = A2 AND P3 = A3) OR QE = 0 else '1';
-    alarme <= '1' when AUX = QE else '0';
+    alarme <= '1' when AUX = QE + '1' else '0';
 
 
     process (EA, configurar, valido, controlF, controlS, QE, P1, P2, P3, AUX, A1, A2, A3)
