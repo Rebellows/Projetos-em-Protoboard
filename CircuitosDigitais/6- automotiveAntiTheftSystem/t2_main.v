@@ -4,7 +4,9 @@ module top (
     input door_driver, door_pass, reprogram,
     input [1:0] time_param_sel, 
     input [3:0] time_value,
-    output reg fuel_pump, status, siren
+    output reg fuel_pump, status,
+    output reg [2:0] siren,
+    output reg [7:0] an, dec_cat
 );
 
 wire break_db, hidden_sw_db, ignition_db;
@@ -79,16 +81,16 @@ siren_generator sg (
 dspl_drv_NexysA7 dspl (
     .reset(reset),
     .clock(clock),
-    .EA(d1),
-    .timer_count(d2),
-    d3,
-    d4,
-    d5,
-    d6,
-    d7,
-    d8,
-    dec_cat,
-    an
+    .d1({1, {0, EA}, 0}),
+    .d2({1, timer_count, 0}),
+    d3(6'd0),
+    d4(6'd0),
+    d5(6'd0),
+    d6(6'd0),
+    d7(6'd0),
+    d8(6'd0),
+    dec_cat(dec_cat),
+    an(an)
 );
 
 endmodule
