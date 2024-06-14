@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module top (
     input clock, reset,
     input break, hidden_sw, ignition,
