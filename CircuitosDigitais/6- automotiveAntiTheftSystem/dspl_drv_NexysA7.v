@@ -14,13 +14,6 @@ module dspl_drv_NexysA7(
     output [7:0] dec_cat,
     output [7:0] an
     );    
-
-    assign d3 = 6'b0;
-    assign d4 = 6'b0;
-    assign d5 = 6'b0;
-    assign d6 = 6'b0;
-    assign d7 = 6'b0;
-    assign d8 = 6'b0;
     
     // seleciona o display a ser mostrado
     reg [2:0] selected;
