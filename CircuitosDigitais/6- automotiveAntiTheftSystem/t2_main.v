@@ -9,6 +9,7 @@ module top (
 
 wire break_db, hidden_sw_db, ignition_db;
 wire door_driver_db, door_pass_db, reprogram_db;
+wire [2:0] EA;
 
 debounce db_break (.clock(clock), .reset(reset), .noisy(break), .clean(break_db));
 debounce db_hidden_sw (.clock(clock), .reset(reset), .noisy(hidden_sw), .clean(hidden_sw_db));
@@ -19,7 +20,7 @@ debounce db_reprogram (.clock(clock), .reset(reset), .noisy(reprogram), .clean(r
 
 wire enable_siren, start_timer, one_hz_enable, two_hz_enable, expired;
 wire [1:0] interval;
-wire [3:0] value;
+wire [3:0] value, timer_count;
 
 time_parameters tp (
     .clock(clock),
@@ -38,7 +39,8 @@ timer t (
     .start_timer(start_timer),
     .one_hz_enable(one_hz_enable),
     .two_hz_enable(two_hz_enable),
-    .expired(expired)
+    .expired(expired),
+    .timer_count(timer_count)
 );
 
 fsm fsm (
@@ -53,7 +55,8 @@ fsm fsm (
     .status(status),
     .enable_siren(enable_siren),
     .start_timer(start_timer),
-    .interval(interval)
+    .interval(interval),
+    .EA(EA)
 );
 
 fuel_pump_logic fpl (
@@ -71,6 +74,21 @@ siren_generator sg (
     .two_hz_enable(two_hz_enable),
     .enable_siren(enable_siren),
     .siren(siren)
+);
+
+dspl_drv_NexysA7 dspl (
+    .reset(reset),
+    .clock(clock),
+    .EA(d1),
+    .timer_count(d2),
+    d3,
+    d4,
+    d5,
+    d6,
+    d7,
+    d8,
+    dec_cat,
+    an
 );
 
 endmodule
