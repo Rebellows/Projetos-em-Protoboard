@@ -21,7 +21,7 @@ module timer (
             two_hz_enable <= 0;
             expired <= 0;
             timer_count <= 0;
-            aux;
+            aux <= 0;
         end 
         else begin
             if (counter_1hz >= ONE_HZ_MAX - 1) begin
