@@ -28,7 +28,7 @@ always @(posedge clock, posedge reset) begin
     end    
 end
 
-always @(*) begin
+always @(posedge clock, posedge reset) begin
     case (interval) 
         2'b00: value = T_ARM_DELAY;
         2'b01: value = T_DRIVER_DELAY;
