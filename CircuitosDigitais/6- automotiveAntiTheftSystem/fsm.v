@@ -133,62 +133,62 @@ always @(posedge clock, posedge reset) begin
 
         `ARMED: begin
             if (aux == 2'b10) begin
-                status = 1'b1;
-                aux = 2'b00;
+                status <= 1'b1;
+                aux <= 2'b00;
             end
             else begin
-                status = 1'b0;
+                status <= 1'b0;
             end
-            enable_siren = 1'b0;
-            start_timer = 1'b0;
-            interval = 2'b00;
+            enable_siren <= 1'b0;
+            start_timer <= 1'b0;
+            interval <= 2'b00;
         end
 
         `TRIGGERED: begin
-            status = 1'b1;
-            enable_siren = 1'b0;
-            start_timer = 1'b1;
+            status <= 1'b1;
+            enable_siren <= 1'b0;
+            start_timer <= 1'b1;
             if (door_driver && !door_pass) begin
-                interval = 2'b01;
+                interval <= 2'b01;
             end
             else begin
-                interval = 2'b10;
+                interval <= 2'b10;
             end
         end
 
         `ACTIVATE_ALARM: begin
-            status = 1'b1;
-            enable_siren = 1'b1;
-            start_timer = 1'b1;
-            interval = 2'b11;
+            status <= 1'b1;
+            enable_siren <= 1'b1;
+            start_timer <= 1'b1;
+            interval <= 2'b11;
         end
 
         `DISARMED: begin
-            status = 1'b0;
-            enable_siren = 1'b0;
-            start_timer = 1'b0;
-            interval = 2'b00;
+            status <= 1'b0;
+            enable_siren <= 1'b0;
+            start_timer <= 1'b0;
+            interval <= 2'b00;
         end          
 
         `WAIT_OPEN: begin
-            status = 1'b0;
-            enable_siren = 1'b0;
-            start_timer = 1'b0;
-            interval = 2'b00;
+            status <= 1'b0;
+            enable_siren <= 1'b0;
+            start_timer <= 1'b0;
+            interval <= 2'b00;
         end
 
         `WAIT_CLOSE: begin
-            status = 1'b0;
-            enable_siren = 1'b0;
-            start_timer = 1'b0;
-            interval = 2'b00;
+            status <= 1'b0;
+            enable_siren <= 1'b0;
+            start_timer <= 1'b0;
+            interval <= 2'b00;
         end
 
         `WAIT_TIME: begin
-            status = 1'b0;
-            enable_siren = 1'b0;
-            start_timer = 1'b1;
-            interval = 2'b00;
+            status <= 1'b0;
+            enable_siren <= 1'b0;
+            start_timer <= 1'b1;
+            interval <= 2'b00;
         end        
 
     endcase 
