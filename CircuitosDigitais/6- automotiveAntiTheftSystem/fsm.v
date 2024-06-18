@@ -10,7 +10,7 @@ module fsm (
     input clock, reset,
     input ignition, door_driver, door_pass, reprogram, expired, one_hz_enable,
     output reg status, enable_siren, start_timer,
-    output [1:0] reg interval
+    output reg [1:0] interval
 );
 
 reg [2:0] EA, PE;
