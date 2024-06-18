@@ -28,13 +28,13 @@ always @(posedge clock, posedge reset) begin
     end    
 end
 
-always @(posedge clock, posedge reset) begin
+always @(*) begin
     case (interval) 
-        2'b00: value <= T_ARM_DELAY;
-        2'b01: value <= T_DRIVER_DELAY;
-        2'b10: value <= T_PASSENGER_DELAY;
-        2'b11: value <= T_ALARM_ON;
-        default: value <= value;
+        2'b00: value = T_ARM_DELAY;
+        2'b01: value = T_DRIVER_DELAY;
+        2'b10: value = T_PASSENGER_DELAY;
+        2'b11: value = T_ALARM_ON;
+        default: value = value;
     endcase
 end
 
