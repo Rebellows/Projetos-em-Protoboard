@@ -62,7 +62,7 @@ always @(*) begin
         end
 
         `ACTIVATE_ALARM: begin
-            if (expired || (!door_pass && !door_driver)) begin
+            if (door_driver || door_pass) begin
                 PE = `ARMED;
             end
             else if (reprogram) begin
@@ -101,7 +101,7 @@ always @(*) begin
         end
 
         `WAIT_CLOSE: begin
-            if (!door_driver) begin
+            if (door_driver) begin
                 PE = `WAIT_TIME;
             end
             else if (reprogram) begin
@@ -116,9 +116,8 @@ always @(*) begin
             if (expired) begin
                 PE = `ARMED;
             end
-            else if (door_driver) begin
-                PE = `WAIT_CLOSE;
-            end            
+            else if (reprogram) begin
+                PE = `ARMED;
             else begin
                 PE = `WAIT_TIME;
             end
@@ -129,7 +128,7 @@ always @(*) begin
     endcase 
 end
 
-always @(*) begin
+always @(posedge clock, posedge reset) begin
     case (EA)
 
         `ARMED: begin
