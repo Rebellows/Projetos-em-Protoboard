@@ -58,22 +58,22 @@ module dspl_drv_NexysA7(
 
     // possiveis valores a serem desenhados nos displays
     wire [6:0] segments [15:0];
-    assign segments[0] = 7'b1000000;
-    assign segments[1] = 7'b1111001;
-    assign segments[2] = 7'b0100100;
-    assign segments[3] = 7'b0110000;
-    assign segments[4] = 7'b0011001;
-    assign segments[5] = 7'b0010010;
-    assign segments[6] = 7'b0000010;
-    assign segments[7] = 7'b1111000;
+    assign segments[0] = 7'b0000001;
+    assign segments[1] = 7'b1001111;
+    assign segments[2] = 7'b0010010;
+    assign segments[3] = 7'b0000110;
+    assign segments[4] = 7'b1001100;
+    assign segments[5] = 7'b0100100;
+    assign segments[6] = 7'b0100000;
+    assign segments[7] = 7'b0001111;
     assign segments[8] = 7'b0000000;
-    assign segments[9] = 7'b0010000;
+    assign segments[9] = 7'b0000100;
     assign segments[10] = 7'b0001000;
-    assign segments[11] = 7'b0000011;
-    assign segments[12] = 7'b1000110;
-    assign segments[13] = 7'b0100001;
-    assign segments[14] = 7'b0000110;
-    assign segments[15] = 7'b0001110;
+    assign segments[11] = 7'b1100000;
+    assign segments[12] = 7'b0110001;
+    assign segments[13] = 7'b1000010;
+    assign segments[14] = 7'b0110000;
+    assign segments[15] = 7'b0111000;
 
     // passagem do tempo
     reg timer1ms;
