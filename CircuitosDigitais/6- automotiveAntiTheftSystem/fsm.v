@@ -10,10 +10,11 @@ module fsm (
     input clock, reset,
     input ignition, door_driver, door_pass, reprogram, expired, one_hz_enable,
     output reg status, enable_siren, start_timer,
-    output reg [1:0] interval
+    output reg [1:0] interval,
+    output reg [2:0] EA
 );
 
-reg [2:0] EA, PE;
+reg [2:0] PE;
 reg [1:0] aux;
 
 always @(posedge clock, posedge reset) begin
@@ -24,7 +25,10 @@ always @(posedge clock, posedge reset) begin
     else begin
         EA <= PE;
         if (EA == `ARMED) begin
-            if (one_hz_enable) begin
+            if (aux == 2'b10) begin
+                aux <= 2'b00;
+            end
+            else if (one_hz_enable) begin
                 aux <= aux + 1;
             end
         end
@@ -62,7 +66,7 @@ always @(*) begin
         end
 
         `ACTIVATE_ALARM: begin
-            if (expired && (door_driver || door_pass) begin
+            if (expired && (door_driver || door_pass)) begin
                 PE = `ARMED;
             end
             else if (reprogram) begin
@@ -118,6 +122,7 @@ always @(*) begin
             end
             else if (reprogram) begin
                 PE = `ARMED;
+            end
             else begin
                 PE = `WAIT_TIME;
             end
@@ -128,67 +133,66 @@ always @(*) begin
     endcase 
 end
 
-always @(posedge clock, posedge reset) begin
+always @(*) begin
     case (EA)
 
         `ARMED: begin
-            if (aux == 2'b10) begin
-                status <= 1'b1;
-                aux <= 2'b00;
+            if (aux >= 2'b01) begin
+                status = 1'b1;
             end
             else begin
-                status <= 1'b0;
+                status = 1'b0;
             end
-            enable_siren <= 1'b0;
-            start_timer <= 1'b0;
-            interval <= 2'b00;
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
         end
 
         `TRIGGERED: begin
-            status <= 1'b1;
-            enable_siren <= 1'b0;
-            start_timer <= 1'b1;
+            status = 1'b1;
+            enable_siren = 1'b0;
+            start_timer = 1'b1;
             if (door_driver && !door_pass) begin
-                interval <= 2'b01;
+                interval = 2'b01;
             end
             else begin
-                interval <= 2'b10;
+                interval = 2'b10;
             end
         end
 
         `ACTIVATE_ALARM: begin
-            status <= 1'b1;
-            enable_siren <= 1'b1;
-            start_timer <= 1'b1;
-            interval <= 2'b11;
+            status = 1'b1;
+            enable_siren = 1'b1;
+            start_timer = 1'b1;
+            interval = 2'b11;
         end
 
         `DISARMED: begin
-            status <= 1'b0;
-            enable_siren <= 1'b0;
-            start_timer <= 1'b0;
-            interval <= 2'b00;
+            status = 1'b0;
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
         end          
 
         `WAIT_OPEN: begin
-            status <= 1'b0;
-            enable_siren <= 1'b0;
-            start_timer <= 1'b0;
-            interval <= 2'b00;
+            status = 1'b0;
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
         end
 
         `WAIT_CLOSE: begin
-            status <= 1'b0;
-            enable_siren <= 1'b0;
-            start_timer <= 1'b0;
-            interval <= 2'b00;
+            status = 1'b0;
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
         end
 
         `WAIT_TIME: begin
-            status <= 1'b0;
-            enable_siren <= 1'b0;
-            start_timer <= 1'b1;
-            interval <= 2'b00;
+            status = 1'b0;
+            enable_siren = 1'b0;
+            start_timer = 1'b1;
+            interval = 2'b00;
         end        
 
     endcase 
