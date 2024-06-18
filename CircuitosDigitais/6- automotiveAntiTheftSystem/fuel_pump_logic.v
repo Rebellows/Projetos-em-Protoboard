@@ -29,7 +29,7 @@ always @(*) begin
         end
 
         `IGNITION_ON: begin
-            if (ignition && break && hidden_sw)
+            if (break && hidden_sw)
                 PE = `FUEL_ON;
             else if (!ignition)
                 PE = `IDLE;
@@ -38,7 +38,7 @@ always @(*) begin
         end
 
         `FUEL_ON: begin
-            if (!ignition || !break || !hidden_sw)
+            if (!ignition)
                 PE = `IDLE;
             else 
                 PE = `FUEL_ON;
