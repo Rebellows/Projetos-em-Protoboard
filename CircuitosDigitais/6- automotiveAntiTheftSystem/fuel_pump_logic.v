@@ -5,7 +5,7 @@
 module fuel_pump_logic (
     input clock, reset,
     input break, ignition, hidden_sw,
-    output reg fuel_pump);      
+    output fuel_pump);      
 
 reg [1:0] EA, PE;
 
