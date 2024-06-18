@@ -62,7 +62,7 @@ always @(*) begin
         end
 
         `ACTIVATE_ALARM: begin
-            if (door_driver || door_pass) begin
+            if (expired && (door_driver || door_pass) begin
                 PE = `ARMED;
             end
             else if (reprogram) begin
