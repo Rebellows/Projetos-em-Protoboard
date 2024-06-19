@@ -152,11 +152,11 @@ always @(*) begin
             status = 1'b1;
             enable_siren = 1'b0;
             start_timer = 1'b1;
-            if (door_driver && !door_pass) begin
-                interval = 2'b01;
+            if (door_pass) begin
+                interval = 2'b10;
             end
             else begin
-                interval = 2'b10;
+                interval = 2'b01;
             end
         end
 
@@ -193,8 +193,15 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b1;
             interval = 2'b00;
-        end        
-
+        end      
+        
+        default: begin
+            status = 1'b0;  
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
+        end
+        
     endcase 
 end
 
