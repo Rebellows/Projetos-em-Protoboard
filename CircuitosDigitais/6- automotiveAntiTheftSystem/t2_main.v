@@ -83,7 +83,7 @@ siren_generator sg (
 dspl_drv_NexysA7 dspl (
     .reset(reset),
     .clock(clock),
-    .d1({1'b1, {1'b0, EA}, 1'b0}),
+    .d1({1'b1, EA, 1'b0}),
     .d2({1'b1, timer_count, 1'b0}),
     .d3(6'd0),
     .d4(6'd0),
