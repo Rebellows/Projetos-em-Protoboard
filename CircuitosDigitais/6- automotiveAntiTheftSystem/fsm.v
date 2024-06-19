@@ -1,20 +1,24 @@
-`define ARMED 3'b000
-`define TRIGGERED 3'b001
-`define ACTIVATE_ALARM 3'b010
-`define DISARMED 3'b011
-`define WAIT_OPEN 3'b100
-`define WAIT_CLOSE 3'b101
-`define WAIT_TIME 3'b110
+`define ARMED 4'b0000
+`define TRIGGERED 4'b0001
+`define WAIT_EXPIRED_TRIG 4'b0010
+`define ACTIVATE_ALARM 4'b0011
+`define WAIT_ALARM 4'b0100
+`define DISARMED 4'b0101
+`define WAIT_OPEN 4'b0110
+`define WAIT_INTERMED 4'b0111
+`define WAIT_CLOSE 4'b1000
+`define TRIG_TIME_ARM 4'b1001
+`define WAIT_TIME_ARM 4'b1010
 
 module fsm (
     input clock, reset,
     input ignition, door_driver, door_pass, reprogram, expired, one_hz_enable,
     output reg status, enable_siren, start_timer,
     output reg [1:0] interval,
-    output reg [2:0] EA
+    output reg [3:0] EA
 );
 
-reg [2:0] PE;
+reg [3:0] PE;
 reg [1:0] aux;
 
 always @(posedge clock, posedge reset) begin
@@ -106,7 +110,7 @@ always @(*) begin
 
         `WAIT_CLOSE: begin
             if (door_driver) begin
-                PE = `WAIT_TIME;
+                PE = `TRIG_TIME_ARM;
             end
             else if (reprogram) begin
                 PE = `ARMED;
@@ -116,7 +120,7 @@ always @(*) begin
             end
         end
 
-        `WAIT_TIME: begin
+        `TRIG_TIME_ARM: begin
             if (expired) begin
                 PE = `ARMED;
             end
@@ -159,12 +163,26 @@ always @(*) begin
                 interval = 2'b01;
             end
         end
+        
+        `WAIT_EXPIRED_TRIG: begin
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
+            status = 1'b1;            
+        end
 
         `ACTIVATE_ALARM: begin
             status = 1'b1;
             enable_siren = 1'b1;
             start_timer = 1'b1;
             interval = 2'b11;
+        end
+        
+        `WAIT_ALARM: begin
+            status = 1'b1;
+            enable_siren = 1'b1;
+            start_timer = 1'b0;
+            interval = 2'b11;        
         end
 
         `DISARMED: begin
@@ -180,6 +198,13 @@ always @(*) begin
             start_timer = 1'b0;
             interval = 2'b00;
         end
+        
+        `WAIT_INTERMED: begin
+            status = 1'b0;
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;        
+        end
 
         `WAIT_CLOSE: begin
             status = 1'b0;
@@ -188,13 +213,20 @@ always @(*) begin
             interval = 2'b00;
         end
 
-        `WAIT_TIME: begin
+        `TRIG_TIME_ARM: begin
             status = 1'b0;
             enable_siren = 1'b0;
             start_timer = 1'b1;
             interval = 2'b00;
         end      
-        
+ 
+        `WAIT_TIME_ARM: begin
+            status = 1'b0;
+            enable_siren = 1'b0;
+            start_timer = 1'b0;
+            interval = 2'b00;
+        end
+                
         default: begin
             status = 1'b0;  
             enable_siren = 1'b0;
