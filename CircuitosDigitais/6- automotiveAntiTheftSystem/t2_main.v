@@ -24,7 +24,7 @@ debounce db_reprogram (.clock(clock), .reset(reset), .noisy(reprogram), .clean(r
 wire enable_siren, start_timer, one_hz_enable, two_hz_enable, expired;
 wire [1:0] interval;
 wire [3:0] value, timer_count;
-wire [2:0] EA;
+wire [3:0] EA;
 
 time_parameters tp (
     .clock(clock),
