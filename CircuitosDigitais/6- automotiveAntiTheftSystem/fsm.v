@@ -44,7 +44,7 @@ always @(*) begin
     case (EA)
 
         `ARMED: begin
-            if ((door_pass || door_driver) && !door_aux) begin
+            if (door_pass || door_driver) begin
                 PE = `TRIGGERED;
             end
             else if (ignition) begin
@@ -75,11 +75,16 @@ always @(*) begin
         end 
 
         `ACTIVATE_ALARM: begin
-            PE = `WAIT_EXPIRED_ALARM;
+            if (door_driver || door_pass) begin
+                PE = `WAIT_EXPIRED_ALARM;
+            end
+            else begin
+                PE = `ACTIVATE_ALARM;
+            end
         end
 
         `WAIT_EXPIRED_ALARM: begin
-            if (expired && door_aux) begin
+            if (expired) begin
                 PE = `ARMED;
             end
             else if (reprogram) begin
@@ -172,7 +177,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;
         end
 
         `TRIGGERED: begin
@@ -182,7 +186,6 @@ always @(*) begin
             else begin
                 interval = 2'b01;
             end
-            door_aux = 1'b0;
             status = 1'b1;
             enable_siren = 1'b0;
             start_timer = 1'b1;
@@ -193,24 +196,21 @@ always @(*) begin
             start_timer = 1'b0;
             interval = 2'b00;
             status = 1'b1;    
-            door_aux = 1'b0;        
         end
 
         `ACTIVATE_ALARM: begin
+            if (door_driver || door_pass) begin
+                start_timer = 1'b1;
+            end
+            else begin
+                start_timer = 1'b0;
+            end
             status = 1'b1;
             enable_siren = 1'b1;
-            start_timer = 1'b1;
             interval = 2'b11;
-            door_aux = 1'b0;
         end
         
         `WAIT_EXPIRED_ALARM: begin
-            if (door_driver || door_pass) begin
-                door_aux = 1'b1;
-            end    
-            else begin
-                door_aux = 1'b0;
-            end
             status = 1'b1;
             enable_siren = 1'b1;
             start_timer = 1'b0;
@@ -222,7 +222,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;
         end          
 
         `WAIT_OPEN: begin
@@ -230,7 +229,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;
         end
         
         `WAIT_INTERMED: begin
@@ -238,7 +236,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;        
         end
 
         `WAIT_CLOSE: begin
@@ -246,7 +243,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;
         end
 
         `TRIG_TIME_ARM: begin
@@ -254,7 +250,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b1;
             interval = 2'b00;
-            door_aux = 1'b0;
         end      
  
         `WAIT_TIME_ARM: begin
@@ -262,7 +257,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;
         end
                 
         default: begin
@@ -270,7 +264,6 @@ always @(*) begin
             enable_siren = 1'b0;
             start_timer = 1'b0;
             interval = 2'b00;
-            door_aux = 1'b0;
         end
         
     endcase 
