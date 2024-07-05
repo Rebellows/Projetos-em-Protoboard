@@ -4,7 +4,7 @@ module timer (
     output [15:0] t_out;
 ); 
 
-reg [31:0] count;
+reg [15:0] count;
 
 always @(posedge clock or posedge reset) begin
     if (reset) begin
@@ -15,7 +15,7 @@ always @(posedge clock or posedge reset) begin
     end
 end
 
-assign t_out = count[15:0];
+assign t_out = count;
 assign t_valid = (t_en) ? 1 : 0;
 
 endmodule
