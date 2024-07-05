@@ -6,13 +6,14 @@ module dcm (
 );
 
 parameter ONE_HZ = 100_000_000;  
-parameter CLOCK_0 = ONE_HZ / 10;
-parameter CLOCK_1 = ONE_HZ / 5;
-parameter CLOCK_2 = ONE_HZ / 2.5;
-parameter CLOCK_4 = ONE_HZ / 0.625;
-parameter CLOCK_5 = ONE_HZ / 0.3125;
-parameter CLOCK_6 = ONE_HZ / 0.15625;
-parameter CLOCK_7 = ONE_HZ / 0.078125;
+parameter CLOCK_0 = ONE_HZ / 10 / 2;
+parameter CLOCK_1 = ONE_HZ / 5 / 2;
+parameter CLOCK_2 = ONE_HZ / 2.5 / 2;
+parameter CLOCK_3 = ONE_HZ / 2;
+parameter CLOCK_4 = ONE_HZ / 0.625 / 2;
+parameter CLOCK_5 = ONE_HZ / 0.3125 / 2;
+parameter CLOCK_6 = ONE_HZ / 0.15625 / 2;
+parameter CLOCK_7 = ONE_HZ / 0.078125 / 2;
 
 reg [31:0] counter_1, counter_2, aux;
 
@@ -50,7 +51,7 @@ always @(posedge clock or posedge reset) begin
                 end
 
                 3'b011: begin
-                    aux <= ONE_HZ;
+                    aux <= CLOCK_3;
                 end
 
                 3'b100: begin
