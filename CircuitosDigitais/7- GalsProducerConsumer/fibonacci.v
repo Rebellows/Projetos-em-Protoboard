@@ -31,9 +31,14 @@ always @(posedge clock_1 or posedge reset) begin
             end
         end
         else begin
-            flag <= 1'b1;
-            aux <= b - a;
-            f_valid <= 1'b0;
+            if (a == 0) begin
+                f_valid <= 1'b0;
+            end
+            else begin
+                aux <= b - a;
+                flag <= 1'b1;
+                f_valid <= 1'b0;
+            end
         end
     end
 end
