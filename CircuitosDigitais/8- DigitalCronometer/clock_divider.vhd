@@ -4,18 +4,18 @@ use IEEE.numeric_std.all;
 
 entity clock_divider is
   port( 
-    clock, reset    : in std_logic;
-    clock1cs, 250ms : out std_logic;
+    clock, reset        : in std_logic;
+    clock1cs, out_250ms : out std_logic
   );
 end clock_divider;
 
 architecture arch_cd of clock_divider is
   signal ONECS            : integer := (100000000 / 100 / 2);
-  signal 250MS_int        : integer := (100000000 / 100 * 25);
+  signal int_250MS        : integer := (100000000 / 100 * 25);
   signal counter_1cs      : integer := 0;
   signal counter_250ms    : integer := 0;
   signal clock1cs_sig     : std_logic;
-  signal 250ms_sig        : std_logic;
+  signal sig_250ms        : std_logic;
 begin
 
   process (reset, clock)
@@ -27,9 +27,9 @@ begin
       elsif rising_edge(clock) then
           counter_1cs   <= counter_1cs + 1;
           counter_250ms <= counter_250ms + 1;
-          if (counter_250ms = 250MS_int) then
+          if (counter_250ms = int_250MS) then
               counter_250ms <= 0;
-              250ms_sig     <= not 250ms_sig;     
+              sig_250ms     <= not sig_250ms;     
           end if;         
           if (counter_1cs = ONECS) then
               counter_1cs  <= 0;
@@ -38,7 +38,7 @@ begin
       end if;
   end process;
 
-  250ms    <= 250ms_sig;
-  clock1cs <= clock1cs_sig;
+  out_250ms    <= sig_250ms;
+  clock1cs     <= clock1cs_sig;
 
 end arch_cd;
