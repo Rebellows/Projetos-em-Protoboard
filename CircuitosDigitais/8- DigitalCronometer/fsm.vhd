@@ -6,7 +6,7 @@ entity fsm is
     port (
         signal clock, reset       : in std_logic;
         signal start, stop, split : in std_logic;
-        signal enable, do_split   : out std_logic;
+        signal enable, do_split   : out std_logic
     );
 end fsm;
 
@@ -38,7 +38,7 @@ begin
             when S_START =>
                 if (stop = '1') then
                     PE <= S_STOP_HIGH;
-                else if (split = '1') then
+                elsif (split = '1') then
                     PE <= S_SPLIT_HIGH;
                 else
                     PE <= S_START;
