@@ -6,11 +6,11 @@ entity fsm is
     port (
         signal clock, reset       : in std_logic;
         signal start, stop, split : in std_logic;
-        signal enable             : out std_logic;
+        signal enable, do_split   : out std_logic;
     );
 end fsm;
 
-architecture arch of fsm is
+architecture arch_fsm of fsm is
     type states is (S_RESET, S_START, S_STOP_HIGH, S_STOP, S_SPLIT_HIGH, S_SPLIT);
     signal EA, PE : states;
 begin
@@ -71,4 +71,35 @@ begin
         end case;
     end process;
 
-end arch;
+    process (EA, start, stop, split)
+    begin
+        case EA is
+
+            when S_RESET =>
+                enable <= '0';
+                do_split <= '0';
+
+            when S_START =>
+                enable <= '1';
+                do_split <= '0';
+
+            when S_STOP_HIGH =>
+                enable <= '0';
+                do_split <= '0';
+
+            when S_STOP =>
+                enable <= '0';
+                do_split <= '0';
+
+            when S_SPLIT_HIGH =>
+                enable <= '1';
+                do_split <= '1';
+                
+            when S_SPLIT =>  
+                enable <= '1';
+                do_split <= '0';
+
+        end case;
+    end process;    
+
+end arch_fsm;
