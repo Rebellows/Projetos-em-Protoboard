@@ -4,10 +4,10 @@ use IEEE.numeric_std.all;
 
 entity time_counters is
   port( 
-    clock1cs, reset, enable : in std_logic;
-    do_split, 250ms         : in std_logic;
-    centsec, hour           : out std_logic_vector(7 downto 0);
-    second, minute          : out std_logic_vector(6 downto 0)
+    clock1cs, reset, enable    : in std_logic;
+    do_split, in_250ms         : in std_logic;
+    centsec, hour              : out std_logic_vector(7 downto 0);
+    second, minute             : out std_logic_vector(6 downto 0)
   );
 end time_counters;
 
@@ -60,13 +60,13 @@ begin
       end if;
   end process;
 
-  centsec <= centsec_split when flag_split = '1' and 250ms = '1' else 
-             (others => '0') when flag_split = '1' and 250ms = '0' else centsec_sig;
-  second  <= second_split when flag_split = '1' and 250ms = '1' else 
-             (others => '0') when flag_split = '1' and 250ms = '0' else second_sig;
-  minute  <= minute_split when flag_split = '1' and 250ms = '1' else 
-             (others => '0') when flag_split = '1' and 250ms = '0' else minute_sig;
-  hour    <= hour_split when flag_split = '1' and 250ms = '1' else 
-             (others => '0') when flag_split = '1' and 250ms = '0' else hour_sig;
+  centsec <= centsec_split when flag_split = '1' and in_250ms = '1' else 
+             (others => '0') when flag_split = '1' and in_250ms = '0' else centsec_sig;
+  second  <= second_split when flag_split = '1' and in_250ms = '1' else 
+             (others => '0') when flag_split = '1' and in_250ms = '0' else second_sig;
+  minute  <= minute_split when flag_split = '1' and in_250ms = '1' else 
+             (others => '0') when flag_split = '1' and in_250ms = '0' else minute_sig;
+  hour    <= hour_split when flag_split = '1' and in_250ms = '1' else 
+             (others => '0') when flag_split = '1' and in_250ms = '0' else hour_sig;
 
 end arch_tc;
