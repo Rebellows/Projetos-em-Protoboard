@@ -92,9 +92,9 @@ begin
   d1 <= ('1' & centsec(3 downto 0) & '1');
   d2 <= ('1' & centsec(7 downto 4) & '1');
   d3 <= ('1' & second(3 downto 0) & '1');
-  d4 <= ('1' & second(6 downto 4) & '1');
+  d4 <= ('1' & '0' & second(6 downto 4) & '1');
   d5 <= ('1' & minute(3 downto 0) & '1');
-  d6 <= ('1' & minute(6 downto 4) & '1');
+  d6 <= ('1' & '0' & minute(6 downto 4) & '1');
   d7 <= ('1' & hour(3 downto 0) & '1');
   d8 <= ('1' & hour(7 downto 4) & '1'); 
 
