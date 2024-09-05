@@ -25,7 +25,7 @@ begin
     port map (
       clk_i    => clock,
       rstn_i   => reset,
-      key_i => stop,
+      key_i    => stop,
       debkey_o => deb_stop
     );
 
