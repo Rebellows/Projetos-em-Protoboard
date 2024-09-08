@@ -26,6 +26,7 @@ begin
 
     process (EA, start, stop, split)
     begin
+        PE <= EA;
         case EA is
 
             when S_RESET =>
@@ -72,9 +73,9 @@ begin
                 else
                     PE <= S_SPLIT;
                 end if;
-
+            
             when others =>
-                PE <= S_RESET;
+                PE <= S_RESET;         
 
         end case;
     end process;
@@ -110,7 +111,7 @@ begin
             when S_SPLIT =>  
                 enable <= '1';
                 do_split <= '1';
-
+                                
             when others =>
                 enable <= '0';
                 do_split <= '0';
